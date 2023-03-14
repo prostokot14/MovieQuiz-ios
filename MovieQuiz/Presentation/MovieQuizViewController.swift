@@ -22,6 +22,9 @@ struct QuizQuestion {
 
 final class MovieQuizViewController: UIViewController {
     
+    @IBOutlet var noButton: UIButton!
+    @IBOutlet var yesButton: UIButton!
+    
     @IBOutlet private var imageView: UIImageView!
     @IBOutlet private var textLabel: UILabel!
     @IBOutlet private var counterLabel: UILabel!
@@ -90,14 +93,21 @@ final class MovieQuizViewController: UIViewController {
         imageView.layer.masksToBounds = true // даём разрешение на рисование рамки
         imageView.layer.borderWidth = 8 // толщина рамки
         imageView.layer.borderColor = isCorrect ? UIColor.ypGreen.cgColor : UIColor.ypRed.cgColor
+        imageView.layer.cornerRadius = 20
         
         if isCorrect {
             correctAnswers += 1
         }
         
+        yesButton.isEnabled = false
+        noButton.isEnabled = false
+        
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { // запускаем задачу через 1 секунду
             self.imageView.layer.borderColor = UIColor.ypBlack.cgColor
             self.showNextQuestionOrResults()
+            
+            self.yesButton.isEnabled = true
+            self.noButton.isEnabled = true
         }
     }
     
