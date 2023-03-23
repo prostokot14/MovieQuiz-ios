@@ -1,6 +1,7 @@
 import UIKit
 
 final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
+    
     @IBOutlet private var noButton: UIButton!
     @IBOutlet private var yesButton: UIButton!
     @IBOutlet private var imageView: UIImageView!
@@ -14,13 +15,16 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     private var questionFactory: QuestionFactoryProtocol?
     private var currentQuestion: QuizQuestion?
     
+    private var alertPresenter: AlertPresenterProtocol?
+    
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
         questionFactory = QuestionFactory(delegate: self)
-        
         questionFactory?.requestNextQuestion()
+        
+        alertPresenter = AlertPresenter(vc: self)
     }
     
     // MARK: - QuestionFactoryDelegate
@@ -42,29 +46,35 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         textLabel.text = step.question
         counterLabel.text = step.questionNumber
     }
+    
+    // MARK: - AlertPresenterDelegate
+    
+//    func didAlertShown(alertController: UIAlertController) {
+//        self.present(alertController, animated: true, completion: nil)
+//    }
 
-    private func show(quiz result: QuizResultsViewModel) {
-        // создаём объекты всплывающего окна
-        let alert = UIAlertController(title: result.title, message: result.text, preferredStyle: .alert)
-
-        // создаём для него кнопки с действиями
-        let action = UIAlertAction(title: result.buttonText, style: .default) { [weak self] _ in
-            guard let self else {
-                return
-            }
-            
-            self.currentQuestionIndex = 0
-            self.correctAnswers = 0
-            
-            self.questionFactory?.requestNextQuestion()
-        }
-
-        // добавляем в алерт кнопки
-        alert.addAction(action)
-
-        // показываем всплывающее окно
-        self.present(alert, animated: true, completion: nil)
-    }
+//    private func show(quiz result: QuizResultsViewModel) {
+//        // создаём объекты всплывающего окна
+//        let alert = UIAlertController(title: result.title, message: result.text, preferredStyle: .alert)
+//
+//        // создаём для него кнопки с действиями
+//        let action = UIAlertAction(title: result.buttonText, style: .default) { [weak self] _ in
+//            guard let self else {
+//                return
+//            }
+//
+//            self.currentQuestionIndex = 0
+//            self.correctAnswers = 0
+//
+//            self.questionFactory?.requestNextQuestion()
+//        }
+//
+//        // добавляем в алерт кнопки
+//        alert.addAction(action)
+//
+//        // показываем всплывающее окно
+//        self.present(alert, animated: true, completion: nil)
+//    }
     
     private func convert(model: QuizQuestion) -> QuizStepViewModel {
         QuizStepViewModel(image: UIImage(named: model.image) ?? UIImage(), question: model.text, questionNumber: "\(currentQuestionIndex + 1)/\(questionsAmount)")
@@ -99,7 +109,16 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     
     private func showNextQuestionOrResults() {
         if currentQuestionIndex == questionsAmount - 1 {
-            show(quiz: QuizResultsViewModel(title: "Этот раунд окончен!", text: "Ваш результат: \(correctAnswers) из 10", buttonText: "Сыграть ещё раз"))
+            
+            let alertModel = AlertModel(title: "Этот раунд окончен!", message: "Ваш результат: \(correctAnswers) из 10", buttonText: "Сыграть ещё раз", completion: {
+                    self.currentQuestionIndex = 0
+                    self.correctAnswers = 0
+                    
+                    self.questionFactory?.requestNextQuestion()
+            })
+            alertPresenter?.show(alertModel: alertModel)
+            
+//            show(quiz: QuizResultsViewModel(title: "Этот раунд окончен!", text: "Ваш результат: \(correctAnswers) из 10", buttonText: "Сыграть ещё раз"))
         } else {
             currentQuestionIndex += 1
             
