@@ -27,6 +27,7 @@
 		CB857BF329C9D8C900C072E7 /* QuizStepViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB857BF229C9D8C900C072E7 /* QuizStepViewModel.swift */; };
 		CB857BF529C9D8DB00C072E7 /* QuizResultsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB857BF429C9D8DB00C072E7 /* QuizResultsViewModel.swift */; };
 		CB857BF729C9D8E900C072E7 /* QuizQuestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB857BF629C9D8E900C072E7 /* QuizQuestion.swift */; };
+		CBA6E59729D32A82004C5F52 /* StatisticService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBA6E59629D32A82004C5F52 /* StatisticService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -52,6 +53,7 @@
 		CB857BF229C9D8C900C072E7 /* QuizStepViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizStepViewModel.swift; sourceTree = "<group>"; };
 		CB857BF429C9D8DB00C072E7 /* QuizResultsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizResultsViewModel.swift; sourceTree = "<group>"; };
 		CB857BF629C9D8E900C072E7 /* QuizQuestion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizQuestion.swift; sourceTree = "<group>"; };
+		CBA6E59629D32A82004C5F52 /* StatisticService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -134,6 +136,7 @@
 				CB068C9629CCDC41000757E5 /* QuestionFactoryProtocol.swift */,
 				CB068C9829CCE182000757E5 /* QuestionFactoryDelegate.swift */,
 				CB068C9E29CCE9E6000757E5 /* AlertPresenterProtocol.swift */,
+				CBA6E59629D32A82004C5F52 /* StatisticService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -255,6 +258,7 @@
 				AD1ABAB62831907B00B3E448 /* MovieQuizViewController.swift in Sources */,
 				CB857BF329C9D8C900C072E7 /* QuizStepViewModel.swift in Sources */,
 				CB857BF729C9D8E900C072E7 /* QuizQuestion.swift in Sources */,
+				CBA6E59729D32A82004C5F52 /* StatisticService.swift in Sources */,
 				CB857BF029C9D51E00C072E7 /* QuestionFactory.swift in Sources */,
 				AD77F5742857F8810062FB14 /* Date+Extensions.swift in Sources */,
 				AD1ABAB22831907B00B3E448 /* AppDelegate.swift in Sources */,
