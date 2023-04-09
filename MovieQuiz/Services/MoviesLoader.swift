@@ -24,13 +24,32 @@ struct MoviesLoader: MoviesLoading {
         return url
     }
     
+    public enum CustomError: Error, LocalizedError {
+        case wrongAPIKey
+        case custom(message: String)
+        
+        public var errorDescription: String? {
+            switch self {
+            case .wrongAPIKey:
+                return "Wrong API - Key"
+            case .custom(let message):
+                return message
+            }
+        }
+    }
+    
     func loadMovies(handler: @escaping (Result<MostPopularMovies, Error>) -> Void) {
         networkClient.fetch(url: mostPopularMoviesUrl) { result in
             switch result {
             case .success(let data):
                 do {
                     let mostPopularMovies = try JSONDecoder().decode(MostPopularMovies.self, from: data)
-                    handler(.success(mostPopularMovies))
+                    if mostPopularMovies.errorMessage.isEmpty { // если сообщение об ошибке пустое
+                        handler(.success(mostPopularMovies))
+                    } else {
+                        let error = CustomError.custom(message: mostPopularMovies.errorMessage) // Иначе создаём нашу ошибку
+                        handler(.failure(error))
+                    }
                 } catch {
                     handler(.failure(error))
                 }
