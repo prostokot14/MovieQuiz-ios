@@ -25,6 +25,8 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         statisticService = StatisticServiceImplementation()
         questionFactory = QuestionFactory(moviesLoader: MoviesLoader(), delegate: self)
         
+        activityIndicator.layer.cornerRadius = 5
+        activityIndicator.backgroundColor = .ypWhite
         showLoadingIndicator()
         questionFactory?.loadData()
     }
