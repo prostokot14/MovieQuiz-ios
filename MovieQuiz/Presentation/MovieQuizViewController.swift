@@ -55,6 +55,7 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     
     private func show(quiz step: QuizStepViewModel) {
         imageView.image = step.image
+        imageView.layer.borderColor = UIColor.ypBlack.cgColor
         textLabel.text = step.question
         counterLabel.text = step.questionNumber
     }
@@ -76,7 +77,6 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         yesButton.isEnabled = false
         noButton.isEnabled = false
         
-        imageView.layer.borderColor = UIColor.ypBlack.cgColor
         showNextQuestionOrResults()
         
         yesButton.isEnabled = true
