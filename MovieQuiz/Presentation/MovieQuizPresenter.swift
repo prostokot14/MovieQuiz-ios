@@ -27,7 +27,6 @@ final class MovieQuizPresenter: QuestionFactoryDelegate {
     }
     
     // MARK: - QuestionFactoryDelegate
-    
     func didLoadDataFromServer() {
         viewController?.hideLoadingIndicator()
         questionFactory?.requestNextQuestion()
@@ -54,10 +53,6 @@ final class MovieQuizPresenter: QuestionFactoryDelegate {
         }
     }
     
-    private func isLastQuestion() -> Bool {
-        currentQuestionIndex == questionsAmount - 1
-    }
-    
     func startGame() {
         currentQuestionIndex = 0
         correctAnswers = 0
@@ -70,10 +65,6 @@ final class MovieQuizPresenter: QuestionFactoryDelegate {
         questionFactory?.requestNextQuestion()
     }
     
-    private func switchToNextQuestion() {
-        currentQuestionIndex += 1
-    }
-    
     func convert(model: QuizQuestion) -> QuizStepViewModel {
         QuizStepViewModel(image: UIImage(data: model.image) ?? UIImage(), question: model.text, questionNumber: "\(currentQuestionIndex + 1)/\(questionsAmount)")
     }
@@ -84,6 +75,15 @@ final class MovieQuizPresenter: QuestionFactoryDelegate {
     
     func noButtonClicked() {
         didAnswer(isYes: false)
+    }
+    
+    // MARK: - Private methods
+    private func isLastQuestion() -> Bool {
+        currentQuestionIndex == questionsAmount - 1
+    }
+    
+    private func switchToNextQuestion() {
+        currentQuestionIndex += 1
     }
     
     private func didAnswer(isYes: Bool) {
@@ -104,7 +104,6 @@ final class MovieQuizPresenter: QuestionFactoryDelegate {
     private func proceedToNextQuestionOrResults() {
         if isLastQuestion() {
             let text = makeResultsMessage()
-
             let viewModel = QuizResultsViewModel(title: "Этот раунд окончен!", text: text, buttonText: "Сыграть ещё раз")
             
             viewController?.show(quiz: viewModel)
