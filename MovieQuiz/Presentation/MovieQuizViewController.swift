@@ -10,11 +10,12 @@ protocol MovieQuizViewControllerProtocol: AnyObject {
     func hideLoadingIndicator()
     
     func showNetworkError(message: String)
+    func setButtonsEnabled(isEnabled: Bool)
 }
 
 final class MovieQuizViewController: UIViewController, MovieQuizViewControllerProtocol {
-    @IBOutlet var noButton: UIButton!
-    @IBOutlet var yesButton: UIButton!
+    @IBOutlet private var noButton: UIButton!
+    @IBOutlet private var yesButton: UIButton!
     @IBOutlet private var imageView: UIImageView!
     @IBOutlet private var textLabel: UILabel!
     @IBOutlet private var counterLabel: UILabel!
@@ -22,6 +23,10 @@ final class MovieQuizViewController: UIViewController, MovieQuizViewControllerPr
     
     private var alertPresenter: AlertPresenterProtocol?
     private var presenter: MovieQuizPresenter!
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        .lightContent
+    }
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
@@ -32,10 +37,7 @@ final class MovieQuizViewController: UIViewController, MovieQuizViewControllerPr
         imageView.layer.cornerRadius = 20
     }
     
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        .lightContent
-    }
-    
+    // MARK: - Public methods
     func show(quiz step: QuizStepViewModel) {
         imageView.image = step.image
         imageView.layer.borderColor = UIColor.ypBlack.cgColor
@@ -44,9 +46,7 @@ final class MovieQuizViewController: UIViewController, MovieQuizViewControllerPr
     }
     
     func show(quiz result: QuizResultsViewModel) {
-        let message = presenter.makeResultsMessage()
-        
-        let alertModel = AlertModel(title: result.title, message: message, buttonText: result.buttonText) { [weak self] in
+        let alertModel = AlertModel(title: result.title, message: result.text, buttonText: result.buttonText) { [weak self] in
             guard let self else {
                 return
             }
@@ -72,19 +72,23 @@ final class MovieQuizViewController: UIViewController, MovieQuizViewControllerPr
     }
     
     func showNetworkError(message: String) {
-        hideLoadingIndicator() // скрываем индикатор загрузки
-        
         let model = AlertModel(title: "Ошибка", message: message, buttonText: "Попробовать ещё раз") { [weak self] in
             guard let self else {
                 return
             }
             
-            self.presenter.restartGame()
+            self.presenter.startGame()
         }
         
         alertPresenter?.show(alertModel: model)
     }
+    
+    func setButtonsEnabled(isEnabled: Bool) {
+        yesButton.isEnabled = isEnabled
+        noButton.isEnabled = isEnabled
+    }
 
+    // MARK: - Private methods
     @IBAction private func noButtonClicked(_ sender: UIButton) {
         presenter.noButtonClicked()
     }

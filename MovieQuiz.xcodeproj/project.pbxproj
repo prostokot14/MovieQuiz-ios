@@ -119,6 +119,7 @@
 		8F4738322848DE2A005DF65E /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
+				CB67B8BB29F4268F00AF93DE /* MovieQuizPresenter.swift */,
 				AD1ABAB52831907B00B3E448 /* MovieQuizViewController.swift */,
 				AD1ABAB72831907B00B3E448 /* Main.storyboard */,
 				CB068C9C29CCE775000757E5 /* AlertPresenter.swift */,
@@ -192,7 +193,6 @@
 				CBA6E59629D32A82004C5F52 /* StatisticService.swift */,
 				CBE32C9329E1D318001E7E5E /* NetworkClient.swift */,
 				CB79DB9A29E1E38F0039F746 /* MoviesLoader.swift */,
-				CB67B8BB29F4268F00AF93DE /* MovieQuizPresenter.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
